@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chat ui</title>
+    <!-- using external css uncomment this-->
+    <!-- <link rel="stylesheet" href="css/index.css" /> -->
+    <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" /> -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css
+    "
+    />
+    <style type="text/css">
+      @import url("https://fonts.googleapis.com/css2?family=DM+Sans&display=swap");
+      * {
+        padding: 0;
+        margin: 0;
+        border: none;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        outline: none;
+        font-family: "DM Sans", Sans-serif, "Helvetica Neue", "Noto Sans", Arial,
+          Sans-serif;
+      }
+
+      body {
+        font-size: 16px;
+        font-family: "DM Sans", Sans-serif, "Helvetica Neue", "Noto Sans", Arial,
+          Sans-serif;
+        color: #333;
+        position: relative;
+        background: #efefef;
+      }
+
+      a {
+        text-decoration: none;
+      }
+
+      div.chat-app div.chat-app-aside div.chat-head {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+      }
+
+      div.chat-app div.chat-user-profile {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        justify-content: center;
+        text-align: center;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+      }
+
+      div.chat-app div.chat-app-aside::-webkit-scrollbar,
+      div.chat-app
+        div.chat-app-conversation
+        div.chat-conversation-body::-webkit-scrollbar {
+        width: 5px;
+      }
+
+      div.chat-app div.chat-app-aside::-webkit-scrollbar-thumb,
+      div.chat-app
+        div.chat-app-conversation
+        div.chat-conversation-body::-webkit-scrollbar-thumb {
+        background: #816bff;
+        border-radius: 20px;
+      }
+
+      div.chat-app div.chat-app-aside::-webkit-scrollbar-track,
+      div.chat-app
+        div.chat-app-conversation
+        div.chat-conversation-body::-webkit-scrollbar-track {
+        background: transparent;
+      }
+
+      div.chat-app h6.title {
+        padding: 15px 0;
+        text-transform: uppercase;
+        font-size: 0.7rem;
+        font-weight: 600;
+        letter-spacing: 0.05cm;
+      }
+
+      div.chat-app div.chat-user-profile {
+        height: 50px;
+        width: 50px;
+        background: #9d72ff;
+        color: #fff;
+        border-radius: 50%;
+        margin-right: 10px;
+      }
+
+      div.chat-app div.chat-user-profile.red-bg {
+        background: #ff63a5;
+      }
+
+      div.chat-app div.chat-user-profile.blue-bg {
+        background: #816bff;
+      }
+
+      div.chat-app div.chat-user-profile span {
+        font-weight: bolder;
+      }
+
+      div.chat-app div.chat-app-aside {
+        width: 100vw;
+        height: 100vh;
+        position: fixed;
+        left: 0;
+        top: 0;
+        z-index: 5;
+        overflow: auto;
+        padding-bottom: 50px;
+        border-right: 1px solid lightgrey;
+      }
+
+      div.chat-app div.chat-app-aside div.chat-head {
+        height: 80px;
+        padding: 10px 15px;
+        position: -webkit-sticky;
+        position: sticky;
+        background: #fff;
+        top: 0;
+      }
+
+      div.chat-app div.chat-app-aside div.chat-head div.chat-user-profile {
+        margin-right: 10px;
+      }
+
+      div.chat-app div.chat-app-aside div.chat-favourites {
+        padding: 10px 15px;
+      }
+
+      div.chat-app
+        div.chat-app-aside
+        div.chat-favourites
+        div.chat-favourites-container {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        padding: 10px 0;
+        overflow-x: auto;
+        -ms-flex-wrap: nowrap;
+        flex-wrap: nowrap;
+      }
+
+      div.chat-app
+        div.chat-app-aside
+        div.chat-favourites
+        div.chat-favourites-container
+        div.chat-user-profile {
+        margin-right: 10px;
+        -webkit-box-flex: 0;
+        -ms-flex: 0 0 50px;
+        flex: 0 0 50px;
+      }
+
+      div.chat-app div.chat-app-aside div.chat-messages {
+        padding: 10px 15px;
+      }
+
+      div.chat-app
+        div.chat-app-aside
+        div.chat-messages
+        div.chat-messages-container
+        div.chat-message {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        width: 100%;
+        padding: 18px 0;
+      }
+
+      div.chat-app
+        div.chat-app-aside
+        div.chat-messages
+        div.chat-messages-container
+        div.chat-message
+        div.chat-user-profile {
+        -webkit-box-flex: 0;
+        -ms-flex: 0 0 50px;
+        flex: 0 0 50px;
+        margin-right: 10px;
+        -ms-flex-item-align: start;
+        align-self: flex-start;
+      }
+
+      div.chat-app
+        div.chat-app-aside
+        div.chat-messages
+        div.chat-messages-container
+        div.chat-message
+        div.chat-message-list {
+        -ms-flex-item-align: start;
+        align-self: flex-start;
+        -webkit-box-flex: 0;
+        -ms-flex: 0 0 1;
+        flex: 0 0 1;
+      }
+
+      div.chat-app
+        div.chat-app-aside
+        div.chat-messages
+        div.chat-messages-container
+        div.chat-message
+        div.chat-message-list
+        div.chat-message-list-top {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-orient: horizontal;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+        flex-direction: row;
+        -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+        justify-content: space-between;
+        padding-bottom: 6px;
+      }
+
+      div.chat-app
+        div.chat-app-aside
+        div.chat-messages
+        div.chat-messages-container
+        div.chat-message
+        div.chat-message-list
+        div.chat-message-list-top
+        p.name {
+        font-weight: 550;
+      }
+
+      div.chat-app
+        div.chat-app-aside
+        div.chat-messages
+        div.chat-messages-container
+        div.chat-message
+        div.chat-message-list
+        div.chat-message-list-top
+        span {
+        font-size: 12px;
+      }
+
+      div.chat-app
+        div.chat-app-aside
+        div.chat-messages
+        div.chat-messages-container
+        div.chat-message
+        div.chat-message-list
+        p.chat-message-body {
+        font-size: 0.8rem;
+      }
+
+      div.chat-app div.chat-app-aside div.chat-search-container {
+        padding: 10px 15px;
+      }
+
+      div.chat-app div.chat-app-aside div.chat-search-container form input {
+        width: 100%;
+        padding: 10px;
+        background: #f4f4f4;
+        border-radius: 30px;
+        font-size: 14px;
+      }
+
+      div.chat-app div.chat-app-conversation {
+        width: 100vw;
+        height: 100vh;
+        position: fixed;
+        z-index: 6;
+        background: #fff;
+        left: 0;
+        top: 0;
+        visibility: visible;
+      }
+
+      div.chat-app div.chat-app-conversation div.chat-user-profile {
+        height: 40px;
+        width: 40px;
+      }
+
+      div.chat-app div.chat-app-conversation div.chat-app-conversation-head {
+        height: 70px;
+        background: #fff;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+        padding: 10px 15px;
+      }
+
+      div.chat-app
+        div.chat-app-conversation
+        div.chat-app-conversation-head
+        div.user-engagement {
+        position: absolute;
+        right: 15px;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+      }
+
+      div.chat-app
+        div.chat-app-conversation
+        div.chat-app-conversation-head
+        div.user-engagement
+        a.icon {
+        color: #816bff;
+        padding: 0 10px;
+      }
+
+      div.chat-app
+        div.chat-app-conversation
+        div.chat-app-conversation-head
+        a.back-arrow {
+        margin-right: 14px;
+        font-size: 1em;
+        font-weight: 50;
+        color: #555;
+      }
+
+      div.chat-app
+        div.chat-app-conversation
+        div.chat-app-conversation-head
+        div.chat-user-details
+        span {
+        font-size: 13px;
+      }
+
+      div.chat-app div.chat-app-conversation div.chat-conversation-body {
+        height: calc(100vh - 120px);
+        background: #efefef;
+        padding: 10px 15px;
+        padding-bottom: 70px;
+        overflow: auto;
+      }
+
+      div.chat-app
+        div.chat-app-conversation
+        div.chat-conversation-body
+        div.message-chat {
+        padding: 10px 0;
+      }
+
+      div.chat-app
+        div.chat-app-conversation
+        div.chat-conversation-body
+        div.message-chat.is-friend {
+        -webkit-box-pack: start;
+        -ms-flex-pack: start;
+        justify-content: flex-start;
+      }
+
+      div.chat-app
+        div.chat-app-conversation
+        div.chat-conversation-body
+        div.message-chat.is-friend
+        div.message-layer {
+        max-width: 90%;
+      }
+
+      div.chat-app
+        div.chat-app-conversation
+        div.chat-conversation-body
+        div.message-chat.is-friend
+        div.message-layer
+        div.friend-profile-container {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        justify-content: center;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+        padding-bottom: 30px;
+        -ms-flex-item-align: end;
+        align-self: flex-end;
+      }
+
+      div.chat-app
+        div.chat-app-conversation
+        div.chat-conversation-body
+        div.message-chat.is-friend
+        div.message-layer
+        div.message-container
+        div.message
+        div.bubble-container {
+        padding: 2px 0;
+      }
+
+      div.chat-app
+        div.chat-app-conversation
+        div.chat-conversation-body
+        div.message-chat.is-friend
+        div.message-layer
+        div.message-container
+        div.message
+        div.bubble-container
+        p.bubble {
+        padding: 12px;
+        background: #fff;
+        display: inline-block;
+        border-bottom-right-radius: 8px;
+        border-top-right-radius: 8px;
+        border-top-left-radius: 8px;
+        font-size: 14px;
+      }
+
+      div.chat-app
+        div.chat-app-conversation
+        div.chat-conversation-body
+        div.message-chat.is-friend
+        div.message-layer
+        div.message-container
+        div.message
+        span.time {
+        text-align: left;
+        display: block;
+        font-size: 12px;
+        height: 30px;
+        line-height: 30px;
+      }
+
+      div.chat-app
+        div.chat-app-conversation
+        div.chat-conversation-body
+        div.message-chat.is-friend
+        div.message-layer {
+        display: -webkit-inline-box;
+        display: -ms-inline-flexbox;
+        display: inline-flex;
+      }
+
+      div.chat-app
+        div.chat-app-conversation
+        div.chat-conversation-body
+        div.message-chat.is-you {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-pack: end;
+        -ms-flex-pack: end;
+        justify-content: flex-end;
+      }
+
+      div.chat-app
+        div.chat-app-conversation
+        div.chat-conversation-body
+        div.message-chat.is-you
+        div.message-layer {
+        max-width: 90%;
+      }
+
+      div.chat-app
+        div.chat-app-conversation
+        div.chat-conversation-body
+        div.message-chat.is-you
+        div.message-layer
+        div.message-container {
+        display: -ms-grid;
+        display: grid;
+        -ms-grid-rows: 1fr;
+        grid-template-rows: 1fr;
+        grid-row-gap: 5px;
+      }
+
+      div.chat-app
+        div.chat-app-conversation
+        div.chat-conversation-body
+        div.message-chat.is-you
+        div.message-layer
+        div.message-container
+        div.message
+        div.bubble-container {
+        padding: 2px 0;
+        text-align: right;
+      }
+
+      div.chat-app
+        div.chat-app-conversation
+        div.chat-conversation-body
+        div.message-chat.is-you
+        div.message-layer
+        div.message-container
+        div.message
+        div.bubble-container
+        p.bubble {
+        text-align: initial;
+        padding: 12px;
+        background: #816bff;
+        color: #fff;
+        display: inline-block;
+        border-bottom-left-radius: 8px;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+        border-bottom-right-radius: 0px;
+        font-size: 14px;
+      }
+
+      div.chat-app
+        div.chat-app-conversation
+        div.chat-conversation-body
+        div.message-chat.is-you
+        div.message-layer
+        div.message-container
+        div.message
+        span.time {
+        text-align: right;
+        display: block;
+        font-size: 12px;
+        height: 30px;
+        line-height: 30px;
+      }
+
+      div.chat-app
+        div.chat-app-conversation
+        div.chat-conversation-body
+        div.message-chat.is-you
+        div.message-layer
+        div.message-container
+        div.message
+        span.time
+        i {
+        background: #444;
+        color: #fff;
+        margin-left: 2px;
+        padding: 2px;
+        font-size: 8px;
+        border-radius: 30px;
+      }
+
+      div.chat-app div.chat-app-conversation div.chat-sender {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        width: 100vw;
+        padding: 10px 15px;
+        -webkit-box-pack: space-evenly;
+        -ms-flex-pack: space-evenly;
+        justify-content: space-evenly;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+        height: 70px;
+        -ms-grid-columns: 40px auto auto 40px 40px;
+        grid-template-columns: 40px auto auto 40px 40px;
+        grid-column-gap: 10px;
+        background-color: #fff;
+      }
+
+      div.chat-app
+        div.chat-app-conversation
+        div.chat-sender
+        div.media-container {
+        -webkit-animation-name: slidein;
+        animation-name: slidein;
+        -webkit-animation-delay: 200ms;
+        animation-delay: 200ms;
+        -webkit-animation-fill-mode: forwards;
+        animation-fill-mode: forwards;
+        -webkit-animation-duration: 300ms;
+        animation-duration: 300ms;
+        display: none;
+        -webkit-box-flex: 0;
+        -ms-flex: 0 0 1;
+        flex: 0 0 1;
+        opacity: 0;
+      }
+
+      div.chat-app
+        div.chat-app-conversation
+        div.chat-sender
+        div.media-container
+        a {
+        color: #816bff;
+        padding: 0 8px;
+      }
+
+      div.chat-app
+        div.chat-app-conversation
+        div.chat-sender
+        div.media-container
+        a
+        em {
+        font-size: 16px;
+      }
+
+      div.chat-app
+        div.chat-app-conversation
+        div.chat-sender
+        textarea.message-box {
+        -webkit-box-flex: 0;
+        -ms-flex: 0 0 1;
+        flex: 0 0 1;
+        display: block;
+        width: auto;
+        font-size: 16px;
+        resize: none;
+      }
+
+      div.chat-app div.chat-app-conversation div.chat-sender a.icon {
+        height: 30px;
+        width: 30px;
+        border-radius: 50%;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        justify-content: center;
+        font-size: 1rem;
+        color: #816bff;
+      }
+
+      div.chat-app div.chat-app-conversation div.chat-sender a.icon.add {
+        background: #816bff;
+        color: #fff;
+        border-radius: 30px;
+        -webkit-transition: 300ms;
+        transition: 300ms;
+      }
+
+      div.chat-app div.chat-app-conversation div.chat-sender a.icon.sender {
+        padding: 5px;
+        background: #816bff;
+        color: #fff;
+      }
+
+      @-webkit-keyframes slidein {
+        to {
+          opacity: 1;
+        }
+      }
+
+      @keyframes slidein {
+        to {
+          opacity: 1;
+        }
+      }
+
+      @media screen and (min-width: 659px) and (max-width: 768px) {
+        a.back-arrow {
+          display: none;
+        }
+        div.chat-app {
+          display: -ms-grid;
+          display: grid;
+          -ms-grid-columns: 320px 1fr;
+          grid-template-columns: 320px 1fr;
+          max-width: 100%;
+        }
+        div.chat-app div.chat-app-aside,
+        div.chat-app div.chat-app-conversation {
+          position: relative;
+          width: auto;
+        }
+        div.chat-app
+          div.chat-app-aside
+          div.chat-favourites
+          div.chat-favourites-container {
+          -ms-flex-wrap: wrap;
+          flex-wrap: wrap;
+        }
+        div.chat-app
+          div.chat-app-aside
+          div.chat-favourites
+          div.chat-favourites-container
+          div.chat-user-profile {
+          margin-bottom: 10px;
+        }
+        div.chat-app div.chat-app-conversation {
+          position: relative;
+        }
+        div.chat-app div.chat-app-conversation div.chat-sender {
+          position: absolute;
+          width: 100%;
+        }
+      }
+
+      @media screen and (min-width: 769px) {
+        a.back-arrow {
+          display: none;
+        }
+        div.chat-app {
+          display: -ms-grid;
+          display: grid;
+          -ms-grid-columns: 350px 1fr;
+          grid-template-columns: 350px 1fr;
+          width: 750px;
+          height: 500px;
+          position: fixed;
+          right: 10px;
+          bottom: 10px;
+          background: #fff;
+          -webkit-box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.1),
+            -5px -5px 5px rgba(0, 0, 0, 0.1);
+          box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.1),
+            -5px -5px 5px rgba(0, 0, 0, 0.1);
+          border-radius: 8px;
+        }
+        div.chat-app div.chat-app-aside,
+        div.chat-app div.chat-app-conversation {
+          position: relative;
+          width: auto;
+        }
+        div.chat-app div.chat-app-aside {
+          padding-bottom: 40px;
+          height: 500px;
+        }
+        div.chat-app
+          div.chat-app-aside
+          div.chat-favourites
+          div.chat-favourites-container {
+          -ms-flex-wrap: wrap;
+          flex-wrap: wrap;
+        }
+        div.chat-app
+          div.chat-app-aside
+          div.chat-favourites
+          div.chat-favourites-container
+          div.chat-user-profile {
+          margin-bottom: 10px;
+        }
+        div.chat-app div.chat-app-conversation {
+          position: relative;
+          height: 500px;
+        }
+        div.chat-app div.chat-app-conversation div.chat-sender {
+          position: absolute;
+          bottom: 0;
+          right: 0;
+          width: 100%;
+          z-index: 2000000000000;
+          overflow: hidden;
+        }
+        div.chat-app div.chat-app-conversation div.chat-conversation-body {
+          height: 360px;
+          padding-bottom: 20px;
+        }
+      }
+      /*# sourceMappingURL=index.css.map */
+    </style>
+  </head>
+  <body>
+    <div class="chat-app">
+      <div class="chat-app-aside">
+        <!-- chat head -->
+        <div class="chat-head">
+          <div class="chat-user-profile">
+            <span>JH</span>
+          </div>
+          <div class="chat-drop-down-container">
+            <h4>Chats</h4>
+          </div>
+        </div>
+        <!-- chat head end -->
+        <!-- search container -->
+        <div class="chat-search-container">
+          <form>
+            <input type="search" placeholder="Search by name" />
+          </form>
+        </div>
+        <!-- search container end -->
+        <!-- favourites -->
+        <div class="chat-favourites">
+          <h6 class="title">FAVOURITES</h6>
+          <div class="chat-favourites-container">
+            <div class="chat-user-profile red-bg">
+              <span>VG</span>
+            </div>
+            <div class="chat-user-profile">
+              <span>MK</span>
+            </div>
+            <div class="chat-user-profile blue-bg">
+              <span>YH</span>
+            </div>
+            <div class="chat-user-profile">
+              <span>GH</span>
+            </div>
+            <div class="chat-user-profile">
+              <span>DH</span>
+            </div>
+            <div class="chat-user-profile red-bg">
+              <span>ZR</span>
+            </div>
+            <div class="chat-user-profile blue-bg">
+              <span>MK</span>
+            </div>
+            <div class="chat-user-profile">
+              <span>YH</span>
+            </div>
+            <div class="chat-user-profile">
+              <span>GH</span>
+            </div>
+            <div class="chat-user-profile">
+              <span>DH</span>
+            </div>
+            <div class="chat-user-profile">
+              <span>ZR</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- favourite ends -->
+
+        <!-- messages -->
+        <div class="chat-messages">
+          <h6 class="title">Messages</h6>
+          <div class="chat-messages-container">
+            <div class="chat-message">
+              <div class="chat-user-profile red-bg">
+                <b>LO</b>
+              </div>
+              <div class="chat-message-list">
+                <div class="chat-message-list-top">
+                  <p class="name">LLiash Hossain</p>
+                  <span class="time">Now</span>
+                </div>
+                <p class="chat-message-body">
+                  Lorem ipsum dolor sit amet consectetur.
+                </p>
+              </div>
+            </div>
+            <div class="chat-message">
+              <div class="chat-user-profile blue-bg">
+                <b>LO</b>
+              </div>
+              <div class="chat-message-list">
+                <div class="chat-message-list-top">
+                  <p class="name">LLiash Hossain</p>
+                  <span class="time">4:45 pm</span>
+                </div>
+                <p class="chat-message-body">
+                  Lorem ipsum dolor sit amet consectetur.
+                </p>
+              </div>
+            </div>
+            <div class="chat-message">
+              <div class="chat-user-profile">
+                <b>LO</b>
+              </div>
+              <div class="chat-message-list">
+                <div class="chat-message-list-top">
+                  <p class="name">LLiash Hossain</p>
+                  <span class="time">3 Apr</span>
+                </div>
+                <p class="chat-message-body">
+                  Lorem ipsum dolor sit amet consectetur.
+                </p>
+              </div>
+            </div>
+            <div class="chat-message">
+              <div class="chat-user-profile blue-bg">
+                <b>LO</b>
+              </div>
+              <div class="chat-message-list">
+                <div class="chat-message-list-top">
+                  <p class="name">LLiash Hossain</p>
+                  <span class="time">4:45 pm</span>
+                </div>
+                <p class="chat-message-body">
+                  Lorem ipsum dolor sit amet consectetur.
+                </p>
+              </div>
+            </div>
+            <div class="chat-message">
+              <div class="chat-user-profile">
+                <b>LO</b>
+              </div>
+              <div class="chat-message-list">
+                <div class="chat-message-list-top">
+                  <p class="name">LLiash Hossain</p>
+                  <span class="time">3 Apr</span>
+                </div>
+                <p class="chat-message-body">
+                  Lorem ipsum dolor sit amet consectetur.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- user-conversations -->
+      <div class="chat-app-conversation" id="chat-conversation">
+        <div class="chat-app-conversation-head">
+          <a href="#" class="back-arrow" id="back-arrow">
+            <i class="fas fa-arrow-left"></i>
+          </a>
+          <!-- user profile avatar -->
+          <div class="chat-user-profile">
+            <span>ZR</span>
+          </div>
+          <div class="chat-user-details">
+            <h4>HIllash Nathan</h4>
+            <span>35 min ago</span>
+          </div>
+          <div class="user-engagement">
+            <a class="icon engage">
+              <em class="fas fa-phone-alt"></em>
+            </a>
+            <a class="icon engage">
+              <em class="fas fa-video"></em>
+            </a>
+            <a class="icon engage">
+              <em class="fas fa-exclamation-circle"></em>
+            </a>
+          </div>
+        </div>
+        <div class="chat-conversation-body" id="chat-body">
+          <div class="message-chat is-friend">
+            <div class="message-layer">
+              <div class="friend-profile-container">
+                <div class="chat-user-profile">
+                  <span>SO</span>
+                </div>
+              </div>
+              <div class="message-container">
+                <div class="message">
+                  <div class="bubble-container">
+                    <p class="bubble">hello</p>
+                  </div>
+                  <div class="bubble-container">
+                    <p class="bubble">
+                      I found issues when i try to purchase items
+                    </p>
+                  </div>
+
+                  <span class="time">
+                    Illash Hossain - 29 Apr 2020 4:38pm
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="message-chat is-you">
+            <div class="message-layer">
+              <!-- <div class="friend-profile-container">
+                            <div class="chat-user-profile">
+                                <span>SO</span>
+                            </div>
+                        </div> -->
+              <div class="message-container">
+                <div class="message">
+                  <div class="bubble-container">
+                    <p class="bubble">Definitely we are happy to help you.</p>
+                  </div>
+                  <div class="bubble-container">
+                    <p class="bubble">Let check it out for you</p>
+                  </div>
+
+                  <span class="time">
+                    Illash Hossain - 29 Apr 2020 4:38pm
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="message-chat is-friend">
+            <div class="message-layer">
+              <div class="friend-profile-container">
+                <div class="chat-user-profile">
+                  <span>SO</span>
+                </div>
+              </div>
+              <div class="message-container">
+                <div class="message">
+                  <div class="bubble-container">
+                    <p class="bubble">Thank you, let me know when it is doe</p>
+                  </div>
+
+                  <span class="time">
+                    Illash Hossain - 29 Apr 2020 4:38pm
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="message-chat is-you">
+            <div class="message-layer">
+              <!-- <div class="friend-profile-container">
+                    <div class="chat-user-profile">
+                        <span>SO</span>
+                    </div>
+                </div> -->
+              <div class="message-container">
+                <div class="message">
+                  <div class="bubble-container">
+                    <p class="bubble">
+                      We just reset your account, pleae check your email for
+                      verification
+                    </p>
+                  </div>
+                  <div class="bubble-container">
+                    <p class="bubble">please confirm if you got email</p>
+                  </div>
+
+                  <span class="time"> Now<i class="fas fa-check"></i> </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="chat-sender">
+          <a href="#" class="icon add" id="media">
+            <i class="fas fa-plus"></i>
+          </a>
+          <div class="media-container" id="media-container">
+            <a href="#">
+              <em class="fas fa-image"></em>
+            </a>
+            <a href="#">
+              <em class="fas fa-camera"></em>
+            </a>
+            <a href="#">
+              <em class="fas fa-microphone"></em>
+            </a>
+            <a href="#">
+              <em class="fas fa-grip-vertical"></em>
+            </a>
+          </div>
+          <div>
+            <textarea
+              class="message-box"
+              placeholder="Your message"
+              rows="1"
+              id="message-box"
+            ></textarea>
+          </div>
+          <div>
+            <a href="#" class="icon">
+              <i class="fas fa-smile"></i>
+            </a>
+          </div>
+          <div>
+            <a href="#" class="icon sender">
+              <i class="fas fa-paper-plane"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script type="text/javascript">
+      const backArrow = document.querySelector("#back-arrow");
+      const chatUi = document.querySelector("#chat-conversation");
+      const chatmessages = document.getElementsByClassName("chat-message");
+      const chatBody = document.querySelector("#chat-body");
+      const openMediaMenu = document.getElementById("media");
+      const messageBox = document.getElementById("message-box");
+      const mediaContainerOption = document.getElementById("media-container");
+      window.onload = () => {
+        chatBody.scrollTop = chatBody.scrollHeight;
+      };
+      backArrow.addEventListener("click", (event) => {
+        event.preventDefault();
+        console.log("hello");
+        chatUi.style.visibility = "hidden";
+      });
+
+      openMediaMenu.addEventListener("click", openMediaOptions, false);
+      for (let a = 0; a < chatmessages.length; a++) {
+        chatmessages[a].addEventListener("click", showConversation);
+      }
+
+      function showConversation() {
+        chatUi.style.visibility = "visible";
+      }
+
+      function openMediaOptions(event) {
+        event.preventDefault();
+        if (mediaContainerOption.style.display === "none") {
+          mediaContainerOption.style.display = "block";
+          messageBox.style.display = "none";
+          openMediaMenu.style.transform = "rotate(45deg)";
+        } else {
+          mediaContainerOption.style.display = "none";
+          messageBox.style.display = "block";
+          openMediaMenu.style.transform = "rotate(0deg)";
+        }
+      }
+    </script>
+  </body>
+</html>

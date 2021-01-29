@@ -1,0 +1,103 @@
+@media screen and (min-width: 481px) and (max-width: 658px) {
+  //   div.chat-app {
+  //     display: grid;
+  //     grid-template-columns: 200px 1fr;
+
+  //     div.chat-app-aside,
+  //     div.chat-app-conversation {
+  //       position: static;
+  //     }
+  //}
+}
+@media screen and (min-width: 659px) and (max-width: 768px) {
+  a.back-arrow {
+    display: none;
+  }
+  div.chat-app {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    max-width: 100%;
+    div.chat-app-aside,
+    div.chat-app-conversation {
+      position: relative;
+      width: auto;
+    }
+
+    div.chat-app-aside {
+      div.chat-favourites {
+        div.chat-favourites-container {
+          flex-wrap: wrap;
+          div.chat-user-profile {
+            margin-bottom: 10px;
+          }
+        }
+      }
+    }
+    div.chat-app-conversation {
+      position: relative;
+      div.chat-sender {
+        position: absolute;
+        width: 100%;
+      }
+    }
+  }
+}
+@media screen and (min-width: 769px) {
+  a.back-arrow {
+    display: none;
+  }
+  div.chat-app {
+    display: grid;
+    grid-template-columns: 350px 1fr;
+    width: 750px;
+    height: 500px;
+    position: fixed;
+    right: 10px;
+    bottom: 10px;
+    background: #fff;
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.1), -5px -5px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    div.chat-app-aside,
+    div.chat-app-conversation {
+      position: relative;
+      width: auto;
+    }
+
+    div.chat-app-aside {
+      padding-bottom: 40px;
+      height: 500px;
+      div.chat-favourites {
+        div.chat-favourites-container {
+          flex-wrap: wrap;
+          div.chat-user-profile {
+            margin-bottom: 10px;
+          }
+        }
+      }
+    }
+
+    div.chat-app-conversation {
+      position: relative;
+      //   div.chat-app-conversation-head {
+      //     background: blue;
+      //   }
+      height: 500px;
+      div.chat-sender {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 100%;
+        z-index: 2000000000000;
+        overflow: hidden;
+      }
+      div.chat-conversation-body {
+        height: 360px;
+        padding-bottom: 20px;
+      }
+    }
+  }
+}
+// @media screen and (min-width: 1025px) and (max-width: 1200px) {
+// }
+// @media screen and (min-width: 1200px) {
+// }

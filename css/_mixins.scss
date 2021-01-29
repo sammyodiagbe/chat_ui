@@ -1,0 +1,58 @@
+@mixin flex-container($direction) {
+  display: flex;
+  flex-direction: $direction;
+}
+
+// <div class="message-chat is-friend">
+//                 <div class="message-layer">
+//                     <div class="friend-profile-container">
+//                         <div class="chat-user-profile">
+//                             <span>SO</span>
+//                         </div>
+//                     </div>
+//                     <div class="message-container">
+//                         <div class="message">
+
+//                             <div class="bubble-container">
+//                                 <p class="bubble">
+//                                     Thank you, let me know when it is doe
+//                                 </p>
+//                             </div>
+
+//                             <span class="time">
+//                                 Illash Hossain - 29 Apr 2020 4:38pm
+//                             </span>
+//                         </div>
+//                     </div>
+//                 </div>
+//             </div>
+
+//             // another
+
+//             <div class="message-chat is-friend">
+//                 <div class="message-layer">
+//                     <div class="friend-profile-container">
+//                         <div class="chat-user-profile">
+//                             <span>SO</span>
+//                         </div>
+//                     </div>
+//                     <div class="message-container">
+//                         <div class="message">
+//                             <div class="bubble-container">
+//                                 <p class="bubble">
+//                                 hello
+//                             </p>
+//                             </div>
+//                             <div class="bubble-container">
+//                                 <p class="bubble">
+//                                     I found issues when i try to purchase items
+//                                 </p>
+//                             </div>
+
+//                             <span class="time">
+//                                 Illash Hossain - 29 Apr 2020 4:38pm
+//                             </span>
+//                         </div>
+//                     </div>
+//                 </div>
+//                 </div>
